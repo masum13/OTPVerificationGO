@@ -42,6 +42,12 @@ func VerifyOtp(otpNew VerifyOTP) (string, error) {
 	if err != nil {
 		if strings.Contains(err.Error(), "ApiError 60200") {
 			err = errors.New("please add country code in the phone number")
+		} else if strings.Contains(err.Error(), "ApiError 20404") {
+			err = errors.New("OTP is expired, Generate New one")
+		} else if strings.Contains(err.Error(), "ApiError 60202") {
+			err = errors.New("max check attempts reached")
+		} else if strings.Contains(err.Error(), "pending") {
+			err = errors.New("please enter correct OTP")
 		}
 		return "", err
 	}

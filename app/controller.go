@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -50,7 +51,8 @@ func ConfirmOTP(w http.ResponseWriter, r *http.Request) {
 	resp, err := VerifyOtp(data)
 	if err != nil {
 		//handle error
-		log.Fatalf("OTP verification failed: %v", err)
+		http.Error(w, "Enter correct OTP.", http.StatusBadRequest)
+		fmt.Printf("OTP verification failed: %v", err)
 		return
 	}
 	// Respond with a success message
